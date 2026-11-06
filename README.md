@@ -6,9 +6,7 @@
 
 ### 1: Fill in the top of the protocol
 
-
 ### 2: Markdown formatting
-
 
 ### 3: Create subdirs, and copy the scripts
 
@@ -42,10 +40,10 @@ The output of the command was:
 
 ### 6: Run TrimGalore
 
-<!-- Put the code to run TrimGalore in `protocol.md`, not here. -->
-
 *Answer*: Whether all batch jobs succeeded, and how you checked that
 (and any problems you encountered, and how you solved them):
+
+- When running my loop, I encountered issues with the `$fastq_dir` not properly working and calling the correct files. The main issue with this was that I did not define the variable in my terminal first. I had taken a break between part A and part B and needed to start a new VS Code session. I did not think to rerun the code setting the filepaths first before running the loop causing my loop to not properly call the fastq input files. After resolving this issue, I ran in to no other issues with running the loop. To ensure I was properly calling the correct `r2` file that corresponded with the `r1` file, I refered back to my loop from `GA4` for reference. To confirm all batch jobs succeeded, I first checked my emial to ensure there were no notifications informing me of a failed job (given the script included the `#SBATCH --mail-type=FAIL` which notifies users if their job fails). I next checked the queue (using `squeue -u $USER -l`) to confirm all jobs had successful finished and the only job running was my VS Code job. Finally, I checked each slurm log file outputted to confirm that the script was successful for each sample. 
 
 ------------------------------------------------------------------------
 
