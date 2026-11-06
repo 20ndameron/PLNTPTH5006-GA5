@@ -46,25 +46,42 @@ outdir=results
 ## Step 1: Read trimming with TrimGalore
 
 ```bash
-# `for` loop
+# Run script for all fastq files
 for r1 in "$fastq_dir"/*_R1.fastq.gz; do
   sample=$(basename "$r1" _R1.fastq.gz)
   r2="$fastq_dir"/"$sample"_R2.fastq.gz
   sbatch scripts/trimgalore.sh "$r1" "$r2" "$outdir"/trimgalore/"$sample"
 done
 
-# move logs of successfule runs
+# Move logs of successful runs
 mkdir "$outdir"/trimgalore/logs 
-mv slurm*.out "$outdir"/trimgalore/logs
+mv slurm-trimgalore*.out "$outdir"/trimgalore/logs
 ```
 
 ## Step 2: Creating a transcriptome index with Salmon
 
-<???>
+```bash
+# Run script
+sbatch scripts/salmon_index.sh "$ref_transcripts" "$outdir"/salmon_index
+
+# Move logs of successful runs
+mv slurm-salmon_index*.out "$outdir"/salmon_index/logs
+```
 
 ## Step 3: Pseudo-alignment and quantification with Salmon
 
-<???>
+```bash
+# Run script 
+for sample_name in "$outdir"/trimgalore/S*; do
+  sample=$(basename "$sample_name" "$outdir"/trimgalore/)
+  r1="$outdir"/trimgalore/"$sample"/"$sample"_R1.fastq.gz
+  r2="$outdir"/trimgalore/"$sample"/"$sample"_R2.fastq.gz
+  sbatch scripts/salmon_quant.sh "$r1" "$r2" "$outdir"/salmon_index "$outdir"/salmon_quant
+done
+
+# Move logs of successful runs
+mv slurm-salmon_quant*.out "$outdir"/salmon_quant/logs
+```
 
 ## Step 4: Summarizing the results of all steps with MultiQC
 
