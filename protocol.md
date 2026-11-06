@@ -36,7 +36,7 @@ wget -P data/ref https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/016/801/865/GCF_01
 
 ```bash
 # Inputs:
-fastq_dir=data/fastq
+fastq_dir=/fs/ess/PAS3493/people/ndameron/garrigos/fastq
 ref_transcripts=data/ref/GCF_016801865.2_TS_CPP_V2_rna.fna.gz
 
 # Base output dir:
