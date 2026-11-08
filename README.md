@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1448482710.svg)](https://doi.org/10.5281/zenodo.24059641)
+
 # GA5 answers - Noah Dameron
 
 ------------------------------------------------------------------------
@@ -245,4 +247,4 @@ done
 
 ### 20: Get a (test) DOI with Zenodo
 
-*Answer*: Your Zenodo Sandbox DOI:
+*Answer*: Your Zenodo Sandbox DOI: https://doi.org/10.5281/zenodo.24059641
