@@ -151,19 +151,43 @@ results/salmon_quant/S78/logs/salmon_quant.log:mapping rate: 84.2490%
 *Answer*: For each program, the number of reports that MultiQC found,
 and why it found this number:
 
+- The output below shows the total reports that MultiQC found for each program run. No reports were found for the salmon_index folder as this folder only contains the reference index used for aligning our transcript file. For salmon_quant, MultiQC found 22 meta reports, 22 fragment length distributions, and 22 library format count reports. Salmon performs pseudo-alignment on our trimmed reads by mapping them to our reference transcriptome file and estimates how many reads match this transcript. It outputes three reports; a meta report (summarizes salmon run and key parameters), a fragment length report (the quantification report of the gene fragment lengths), and  a library format count report (summarizes library format). There are 22 reports for each report type because there are 22 total samples. However, when looking at the MultiQC html output, MultiQC only shows the summary for the fragment lengths as this is the only report that has key result data. The other two reports are summaries of what salmon did. For trim_galore, MultiQC found 44 reports, 2 reports (for forward and reverse reads) for each sample (22 samples). These reports were the summary results from read trimming performed by trim_galore. This script also had trim_galore perform fastqc on each sample with fastqc performing quality control on the trimmed reads. Again, this was done on each read pair (forward and revere) for each sample (22 samples) resulting in 44 total reports. 
+
+```
+       file_search | Search path: /fs/ess/PAS3493/people/ndameron/GA5/results
+            salmon | Found 22 meta reports
+            salmon | Found 22 fragment length distributions
+            salmon | Found 22 library format counts reports
+       trim_galore | Found 44 reports
+            fastqc | Found 44 reports
+     write_results | Data        : results/multiqc/multiqc_data
+     write_results | Report      : results/multiqc/multiqc_report.html
+           multiqc | MultiQC complete
+
+```
+
 ### 14: The General Statistics table
 
 *Answer*: The sample with the lowest Salmon mapping rate,
 and whether this matches your answer to question 11:
+
+- According to the MultiQC general stats table, sample `S83` had the lowest salmon mapping rate with a rate of `76.2`. This matches the result from sample 11 which also found that sample `S83` had the lowest mapping rate with a rate of `76.1504%`. The only difference between the two reports is the level of significant digits in its answer. 
+
+results/salmon_quant/S83/logs/salmon_quant.log:mapping rate: 76.1504%
+
 
 ### 15: Adapter lengths
 
 *Answer*: The most common adapter lengths, whether this surprised you,
 and why you think these lengths are the most common:
 
+- The most common adapter lengths trimmed from the reads based on the Trim Galore adapter length distribution plot was `1 bp` with almost 140,000 reads having this adapter length distribution. This is not suprising as Trim Galore is used to trim off sequencer primers and clean up reads. This process removes the original sequence pattern for the adapter leaving a "random" nucleotide at the begining (with this nucleotide being whatever the nucleotide actually starts the read). An average length distribution of 1 bp helps validate that trim galore properly removed the sequence adapters and only trimmed reads remain. The next most common adapter length distribution is 2 bp and 3 bp which corresponds to reads that happen to start with the same two or three nucleotides. If the average adapter length was in the tens of base pairs, then this could signal that the adapters were not properly trimmed off by trim galore. 
+
 ### 16: Ask Claude about the MultiQC report
 
 *Answer*: What you asked, and what you learned from Claude's answer (in your own words):
+
+- From the MultiQC report, I asked Claude to better explain what the status check section and per base sequence content section of fastqc were displaying and provide me with a list of follow up steps that may be needed. Based on Claude's response, the status check section of fastqc shows whether each fastq file passed a set of checks for various parameters and reports out a pass, warn, or fail. Every sample was reported as failing the per base sequence content check and the per sequence GC content check. This is most likely not a meaningful fail due to FastQC being more designed for gDNa rather than RNA. Claude further explained that if a fail or warning is consistent across all fastq files it is more likely an artifact rather than a meaningful issue. Next steps should be to check these failures to further confirm if they show meaningful results. Claude also explained what the per base sequence content chart showed. This plot displays the percentage of each nucleotide at each bp posistion. Plots for each sample should show percentage lines for each nucleotide relatively parrallel to each other. If there was a sharp spike in one nucleotide at a postion, this could signal an issu that needs further investigation. Claude did not recommend any further steps to take for our samples given that salmon was run next, mitigating any issues shown. Claude also stated that many of the "fails" we saw in the MultiQC report were do to the fastq files being RNA rather than DNA. 
 
 ------------------------------------------------------------------------
 

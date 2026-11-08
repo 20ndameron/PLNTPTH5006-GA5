@@ -1,0 +1,28 @@
+# Starting script multiqc.sh
+Sat Nov  7 07:42:06 PM EST 2026
+# Input dir:                      results
+# Output dir:                     results/multiqc
+
+INFO:    Using cached SIF image
+INFO:    Digest: sha256:437e8cca3160451763dbc795b7bbf811e9240b6b044abfb4c136df4ee7f9a622
+INFO:    gocryptfs not found, will not be able to use gocryptfs
+
+/// MultiQC 🔍 v1.35
+
+       file_search | Search path: /fs/ess/PAS3493/people/ndameron/GA5/results
+            salmon | Found 22 meta reports
+            salmon | Found 22 fragment length distributions
+            salmon | Found 22 library format counts reports
+       trim_galore | Found 44 reports
+            fastqc | Found 44 reports
+     write_results | Data        : results/multiqc/multiqc_data
+     write_results | Report      : results/multiqc/multiqc_report.html
+           multiqc | MultiQC complete
+
+# Used MultiQC version:
+INFO:    Using cached SIF image
+INFO:    Digest: sha256:437e8cca3160451763dbc795b7bbf811e9240b6b044abfb4c136df4ee7f9a622
+INFO:    gocryptfs not found, will not be able to use gocryptfs
+multiqc, version 1.35
+# Successfully finished script multiqc.sh
+Sat Nov  7 07:42:25 PM EST 2026

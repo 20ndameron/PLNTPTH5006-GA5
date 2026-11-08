@@ -85,4 +85,10 @@ mv slurm-salmon_quant*.out "$outdir"/salmon_quant/logs
 
 ## Step 4: Summarizing the results of all steps with MultiQC
 
-<???>
+```bash
+# Run multiqc
+sbatch scripts/multiqc.sh "$outdir" "$outdir"/multiqc
+
+# Move logs of successful runs
+mv slurm-multiqc*.out "$outdir"/multiqc/logs
+```
