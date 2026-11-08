@@ -36,7 +36,7 @@ wget -P data/ref https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/016/801/865/GCF_01
 
 ```bash
 # Inputs:
-fastq_dir=/fs/ess/PAS3493/people/ndameron/garrigos/fastq
+fastq_dir=../garrigos/fastq
 ref_transcripts=data/ref/GCF_016801865.2_TS_CPP_V2_rna.fna.gz
 
 # Base output dir:
@@ -72,9 +72,8 @@ mv slurm-salmon_index*.out "$outdir"/salmon_index/logs
 
 ```bash
 # Run script 
-for sample_name in "$outdir"/trimgalore/S*; do
-  sample=$(basename "$sample_name" "$outdir"/trimgalore/)
-  r1="$outdir"/trimgalore/"$sample"/"$sample"_R1.fastq.gz
+for r1 in "$outdir"/trimgalore/*/*_R1.fastq.gz; do
+  sample=$(basename "$r1" _R1.fastq.gz)
   r2="$outdir"/trimgalore/"$sample"/"$sample"_R2.fastq.gz
   sbatch scripts/salmon_quant.sh "$r1" "$r2" "$outdir"/salmon_index "$outdir"/salmon_quant
 done

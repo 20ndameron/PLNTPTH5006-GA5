@@ -198,9 +198,42 @@ and why you think these lengths are the most common:
 *Answer*: At least three of Claude's suggestions,
 and whether you agree or disagree with each one, and why:
 
+- Claude recommended to change my loop glob from `"$outdir"/trimgalore/S*` to `"$outdir"/trimgalore/*`on line 75 of my protocol. Changing the code from `S*` to just `*` helps prevent any hardcoding within the code and ensures that the code can be reused even if sample names do not start with `S`. While this is a good recommendation, it runs into the issue with the `logs` subfolder existing within the `trimgalore` folder. One way to resolve this would be to add another globbing string to select for just the fastq files (`"$outdir"/trimgalore/*/*_R1.fastq.gz)and update the for loop which is shown below. The below loop is more specific and ensures the correct files are chosen.
+
+```bash
+for r1 in "$outdir"/trimgalore/*/*_R1.fastq.gz; do
+  sample=$(basename "$r1" _R1.fastq.gz)
+  r2="$outdir"/trimgalore/"$sample"/"$sample"_R2.fastq.gz
+  sbatch scripts/salmon_quant.sh "$r1" "$r2" "$outdir"/salmon_index "$outdir"/salmon_quant
+done
+```
+
+- Claude pointed out some inconsistances with my SBATCH arguments used within the scripts. For example, in multigc.sh, I used `--time=1:00:00` rather than `--time=60` which was the format used in the other scripts. Claude recommended to use one consistant formatting across scripts. While not a functional issue with the script, this is a good recommendation as it follows best practice and consistancy between scripts. I prefer the `--time=hh:mm:ss` format as it is more descriptive and would use this format across all scripts. 
+
+- Claude also pointed out that in my prerequisites section of the protocol, I used an absolute path when defining the `fastq_dir` variable rather than a relative path while the instructions for the prerequisites states a relative path. I agree with this recommendation to pick one consistant file path format and would change my variable file path to relative paths over direct paths. As discussed in lecture, using a relative path over a direct path helps ensure that protocols and scripts are usable across different devices and operating systems. 
+
 ### 18: Address a suggestion
 
 *Answer*: Which suggestion(s) you addressed, and what you changed:
+
+- The first thing I changed within my protocol and scripts was making all direct paths become relative. This does not change anything funcitonally within my scripts and protocol, but ensures that the protocol can be utilized by others or on other devices that do not have the exact same root directory as me. I then went back in to the scripts and changed the `SBATCH` arguments so they all had the same formatting (e.g. making all time arguments `--time=hh:mm:ss` formatted). The final change I made was to my protocol by editing the for loop in step three. Below shows the old for loop followed by the new for loop. This change to the loop makes it more reproducable across different samples with different sample naming conventions. 
+
+```bash
+# Old loop for section 3 
+for sample_name in "$outdir"/trimgalore/S*; do
+  sample=$(basename "$sample_name" "$outdir"/trimgalore/)
+  r1="$outdir"/trimgalore/"$sample"/"$sample"_R1.fastq.gz
+  r2="$outdir"/trimgalore/"$sample"/"$sample"_R2.fastq.gz
+  sbatch scripts/salmon_quant.sh "$r1" "$r2" "$outdir"/salmon_index "$outdir"/salmon_quant
+done
+
+# New loop for section 3
+for r1 in "$outdir"/trimgalore/*/*_R1.fastq.gz; do
+  sample=$(basename "$r1" _R1.fastq.gz)
+  r2="$outdir"/trimgalore/"$sample"/"$sample"_R2.fastq.gz
+  sbatch scripts/salmon_quant.sh "$r1" "$r2" "$outdir"/salmon_index "$outdir"/salmon_quant
+done
+```
 
 ------------------------------------------------------------------------
 

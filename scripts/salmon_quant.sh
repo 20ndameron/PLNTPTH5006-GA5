@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=PAS3493
 #SBATCH --cpus-per-task=8
-#SBATCH --time=30
+#SBATCH --time=0:30:00
 #SBATCH --mail-type=FAIL
 #SBATCH --output=slurm-salmon_quant-%j.out
 set -euo pipefail

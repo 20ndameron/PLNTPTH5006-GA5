@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=PAS3493
 #SBATCH --cpus-per-task=8
-#SBATCH --time=30
+#SBATCH --time=0:30:00
 #SBATCH --output=slurm-trimgalore-%j.out
 #SBATCH --mail-type=FAIL
 set -euo pipefail
