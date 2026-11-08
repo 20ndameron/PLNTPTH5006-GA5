@@ -146,8 +146,6 @@ results/salmon_quant/S78/logs/salmon_quant.log:mapping rate: 84.2490%
 
 ### 12: Update your MultiQC script
 
-<!-- No need to paste the script: we'll look at scripts/multiqc.sh and its Git history directly. -->
-
 ### 13: Run MultiQC
 
 *Answer*: For each program, the number of reports that MultiQC found,
